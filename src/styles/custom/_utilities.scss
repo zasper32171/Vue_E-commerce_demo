@@ -1,0 +1,77 @@
+$utilities: (
+  'letter-spacing': (
+    responsive: true,
+    property: letter-spacing,
+    class: ls,
+    values: (
+      sm: $letter-spacing-sm,
+      base: $letter-spacing-base,
+      lg: $letter-spacing-lg,
+    ),
+  ),
+  'text-align': (
+    responsive: true,
+    property: text-align,
+    class: text,
+    values: (
+      start: left,
+      end: right,
+      center: center,
+      justify: justify,
+    ),
+  ),
+  'z-index': (
+    property: z-index,
+    class: z,
+    values: (
+      -2: -2,
+      -1: -1,
+      0: 0,
+      1: 1,
+      2: 2,
+    ),
+  ),
+  'background-size': (
+    property: background-size,
+    class: bg,
+    values: (
+      auto: auto,
+      cover: cover,
+      contain: contain,
+    ),
+  ),
+  'background-position': (
+    property: background-position,
+    class: bg,
+    values: (
+      center: center,
+    ),
+  ),
+  'background-attachment': (
+    property: background-attachment,
+    class: bg,
+    values: (
+      local: local,
+      fixed: fixed,
+      scroll: scroll,
+    ),
+  ),
+  'object-fit': (
+    property: object-fit,
+    class: image,
+    values: (
+      none: none,
+      fill: fill,
+      contain: contain,
+      cover: cover,
+      scale-down: scale-down,
+    ),
+  ),
+  'object-position': (
+    property: object-position,
+    class: image,
+    values: (
+      center: center center,
+    ),
+  ),
+);

@@ -1,0 +1,24 @@
+body {
+  letter-spacing: 0.35em;
+  line-height: $line-height-lg;
+}
+
+/* prettier-ignore */
+.text-center {
+  p, h1, h2, h3, h4, h5, h6, dt, dd, th, td, a {
+    text-indent: $letter-spacing-base / 2;
+  }
+}
+
+/* prettier-ignore */
+p, h1, h2, h3, h4, h5, h6, dt, dd, th, td, a {
+  &.text-center{
+    text-indent: $letter-spacing-base / 2;
+  }
+}
+
+.text-start,
+.text-end,
+.text-justify {
+  text-indent: 0;
+}

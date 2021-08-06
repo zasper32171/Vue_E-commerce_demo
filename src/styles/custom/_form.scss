@@ -1,0 +1,14 @@
+.indicator-left {
+  padding-left: $form-select-indicator-padding;
+  padding-right: $form-select-padding-x;
+  background-position: left $form-select-padding-x center;
+}
+
+.input-underline {
+  border-width: 0;
+  border-bottom-width: 1px;
+}
+
+.form-group label > * {
+  vertical-align: middle;
+} 

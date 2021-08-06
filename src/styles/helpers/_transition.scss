@@ -1,0 +1,26 @@
+.hover {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .fly-in-top {
+    transform: translateY(-80%);
+    transition: transform 0.15s ease;
+  }
+
+  &:hover > .fly-in-top {
+    transform: translateY(0);
+  }
+
+  .fly-in-down {
+    transform: translateY(80%);
+    transition: transform 0.15s ease;
+  }
+
+  &:hover > .fly-in-down {
+    transform: translateY(0);
+  }
+}

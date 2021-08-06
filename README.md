@@ -1,6 +1,6 @@
 # Golden Ronny
 
-Frontend DEMO of E-commerce liquor store built with `vue` / `vue-cli` / `vue-router`.
+Frontend Demo of E-commerce liquor store website built with `vue` / `vue-cli` / `vue-router`.
 
 Highly customed `Bootstrap` theme. Fully RWD.
 

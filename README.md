@@ -45,8 +45,8 @@ npm run build
 ```
 BASE_URL       = https://your_base_url.com
 API_PATH       = your_api_path
-ADMIN_USERNAME = username@mail.com
-ADMIN_PASSWORD = password123
+ADMIN_USERNAME = your_username@mail.com
+ADMIN_PASSWORD = your_password
 ```
 
 #### Get required libraries
@@ -56,10 +56,10 @@ pip3 install -r data/requirements.txt
 
 #### Inject data into database
 ```
-./populate.sh
+./data/populate.sh
 ```
 
 #### Clear all data
 ```
-./depopulate.sh
+./data/depopulate.sh
 ```

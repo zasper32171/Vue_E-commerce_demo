@@ -17,152 +17,83 @@ HEADERS = {
 
 def login():
     res = requests.post(
-        BASE_URL + "/admin/signin",
+        f"{BASE_URL}/admin/signin",
         json={"username": USERNAME, "password": PASSWORD},
         headers=HEADERS,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Login fail: status code " + str(res.status_code))
+    handleError("Login image", res)
 
     content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Login fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Login fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Login fail:", content)
 
     HEADERS["Authorization"] = content["token"]
 
 
 def uploadImage(file):
     res = requests.post(
-        BASE_URL + "/api/" + API_PATH + "/admin/upload",
+        f"{BASE_URL}/api/{API_PATH}/admin/upload",
         headers=HEADERS,
         files=file,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Upload image fail: status code " + str(res.status_code))
+    handleError("Upload image", res)
 
     content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Upload image fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Upload image fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Upload image fail:", content)
 
     return content["imageUrl"]
 
 
 def getAllProducts():
     res = requests.get(
-        BASE_URL + "/api/" + API_PATH + "/admin/products/all",
+        f"{BASE_URL}/api/{API_PATH}/admin/products/all",
         headers=HEADERS,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Get products fail: status code " + str(res.status_code))
+    handleError("Get products", res)
 
     content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Get product fail:" + content["messages"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Get products fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Get products fail:", content)
 
     return content["products"]
 
 
 def addProduct(product):
     res = requests.post(
-        BASE_URL + "/api/" + API_PATH + "/admin/product",
+        f"{BASE_URL}/api/{API_PATH}/admin/product",
         headers=HEADERS,
         json=product,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Add product fail: status code " + str(res.status_code))
-
-    content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Add product fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Add product fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Add product fail:", content)
+    handleError("Add product", res)
 
 
 def updateProduct(id, data):
     res = requests.put(
-        BASE_URL + "/api/" + API_PATH + "/admin/product/" + id,
+        f"{BASE_URL}/api/{API_PATH}/admin/product/{id}",
         headers=HEADERS,
         json=data,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Update product fail: status code " + str(res.status_code))
-
-    content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Update product fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Update product fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Update product fail:", content)
+    handleError("Update product", res)
 
 
 def deleteProduct(id):
     res = requests.delete(
-        BASE_URL + "/api/" + API_PATH + "/admin/product/" + id,
+        f"{BASE_URL}/api/{API_PATH}/admin/product/{id}",
         headers=HEADERS,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Delete product fail: status code " + str(res.status_code))
-
-    content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Delete product fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Delete product fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Delete product fail:", content)
+    handleError("Delete product", res)
 
 
 def getArticlesByPage(page):
     res = requests.get(
-        BASE_URL + "/api/" + API_PATH + "/admin/articles?page=" + str(page),
+        f"{BASE_URL}/api/{API_PATH}/admin/articles?page={page}",
         headers=HEADERS,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Get articles fail: status code " + str(res.status_code))
+    handleError("Get articles", res)
 
     content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Get articles fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Get articles fail:" + ", ".join(content["message"]))
-        else:
-            raise Exception("Get articles fail:", content)
 
     return content["articles"], content["pagination"]["has_next"]
 
@@ -182,83 +113,56 @@ def getAllArticles():
 
 def getArticle(id):
     res = requests.get(
-        BASE_URL + "/api/" + API_PATH + "/admin/article/" + id,
+        f"{BASE_URL}/api/{API_PATH}/admin/article/{id}",
         headers=HEADERS,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Get articles fail: status code " + str(res.status_code))
+    handleError("Get article", res)
 
     content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Get articles fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Get articles fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Get articles fail:")
 
     return content["article"]
 
 
 def addArticle(article):
     res = requests.post(
-        BASE_URL + "/api/" + API_PATH + "/admin/article",
+        f"{BASE_URL}/api/{API_PATH}/admin/article",
         headers=HEADERS,
         json=article,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Add article fail: status code " + str(res.status_code))
-
-    content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Add article fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Add article fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Add article fail:", content)
+    handleError("Add article", res)
 
 
 def updateArticle(id, article):
     res = requests.put(
-        BASE_URL + "/api/" + API_PATH + "/admin/article/" + id,
+        f"{BASE_URL}/api/{API_PATH}/admin/article/{id}",
         headers=HEADERS,
         json=article,
     )
 
-    if res.status_code != requests.codes.ok:
-        raise Exception("Update article fail: status code " + str(res.status_code))
-
-    content = res.json()
-
-    if content["success"] != True:
-        if content["message"] & isinstance(content["message"], str):
-            raise Exception("Update article fail:" + content["message"])
-        elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Update article fail:" + ", ".join(content["messages"]))
-        else:
-            raise Exception("Update article fail:", content)
+    handleError("Update article", res)
 
 
 def deleteArticle(id):
     res = requests.delete(
-        BASE_URL + "/api/" + API_PATH + "/admin/article/" + id,
+        f"{BASE_URL}/api/{API_PATH}/admin/article/{id}",
         headers=HEADERS,
     )
 
+    handleError("Delete article", res)
+
+
+def handleError(action, res):
     if res.status_code != requests.codes.ok:
-        raise Exception("Delete article fail: status code " + str(res.status_code))
+        raise Exception(f"{action} fail: status code {res.status_code}")
 
     content = res.json()
 
     if content["success"] != True:
         if content["message"] & isinstance(content["message"], str):
-            raise Exception("Delete article fail:" + content["message"])
+            raise Exception(f'{action} fail: {content["message"]}')
         elif content["messages"] & isinstance(content["messages"], list):
-            raise Exception("Delete article fail:" + ", ".join(content["messages"]))
+            raise Exception(f'{action} fail: {", ".join(content["messages"])}')
         else:
-            raise Exception("Delete article fail:", content)
+            raise Exception(f"{action} fail: {content}")

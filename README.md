@@ -6,9 +6,9 @@ Highly customed `Bootstrap` theme. Fully RWD.
 
 [Demo link](https://zasper32171.github.io/golden_ronny/)
 
-<img src="https://github.com/zasper32171/Vue_E-commerce_demo/blob/master/screenshots/screenshot-0.jpg" alt="Home Page" width="640"/>
-<img src="https://github.com/zasper32171/Vue_E-commerce_demo/blob/master/screenshots/screenshot-1.jpg" alt="ProductsPage" width="640"/>
-<img src="https://github.com/zasper32171/Vue_E-commerce_demo/blob/master/screenshots/screenshot-2.jpg" alt="Products Page on Mobile" width="280"/>
+<img src="screenshots/screenshot-0.jpg" alt="Home Page" width="640"/>
+<img src="screenshots/screenshot-1.jpg" alt="ProductsPage" width="640"/>
+<img src="screenshots/screenshot-2.jpg" alt="Products Page on Mobile" width="280"/>
 
 Packages:
 

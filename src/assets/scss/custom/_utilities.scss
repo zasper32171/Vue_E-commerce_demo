@@ -4,6 +4,7 @@ $utilities: (
     property: letter-spacing,
     class: ls,
     values: (
+      0: 0,
       sm: $letter-spacing-sm,
       base: $letter-spacing-base,
       lg: $letter-spacing-lg,
@@ -58,7 +59,7 @@ $utilities: (
   ),
   'object-fit': (
     property: object-fit,
-    class: image,
+    class: img,
     values: (
       none: none,
       fill: fill,
@@ -69,7 +70,7 @@ $utilities: (
   ),
   'object-position': (
     property: object-position,
-    class: image,
+    class: img,
     values: (
       center: center center,
     ),

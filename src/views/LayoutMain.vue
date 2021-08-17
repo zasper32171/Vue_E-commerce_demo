@@ -9,15 +9,19 @@
     <FooterColumns class="d-md-block d-none" :routes="footerRoutes" :info="footerInfo" />
     <FooterAccordion class="d-md-none" :routes="footerRoutes" :info="footerInfo" />
   </footer>
-  <ToastList type="alert" />
+  <Dialog />
+  <ToastList type="main" />
 </template>
 
 <script>
+/* eslint-disable global-require */
+
 import { RouterMixin } from '@/mixins/MessageTransMixins';
 
-import Navbar from '@/components/MainNavbar.vue';
-import FooterColumns from '@/components/MainFooterColumns.vue';
-import FooterAccordion from '@/components/MainFooterAccordion.vue';
+import Navbar from '@/components/Navbar.vue';
+import FooterColumns from '@/components/FooterColumns.vue';
+import FooterAccordion from '@/components/FooterAccordion.vue';
+import Dialog from '@/components/Dialog.vue';
 import ToastList from '@/components/ToastList.vue';
 
 export default {
@@ -27,6 +31,7 @@ export default {
     Navbar,
     FooterColumns,
     FooterAccordion,
+    Dialog,
     ToastList,
   },
   data() {
@@ -65,13 +70,20 @@ export default {
         },
       ],
       footerInfo: {
-        tele: '(02) 2468-7878',
+        tele: {
+          text: '(02) 2468-7878',
+          href: 'tel:+886-2-24687878',
+        },
         media: [
-          { img: require('@/assets/icons/mail-solid.svg'), href: '#' },
-          { img: require('@/assets/icons/facebook.svg'), href: '#' },
-          { img: require('@/assets/icons/instagram.svg'), href: '#' },
-          { img: require('@/assets/icons/twitter.svg'), href: '#' },
-          { img: require('@/assets/icons/youtube.svg'), href: '#' },
+          {
+            name: 'Email',
+            img: require('@/assets/icons/mail-solid.svg'),
+            href: 'mailto:service@golden_ronny.com',
+          },
+          { name: 'Facebook', img: require('@/assets/icons/facebook.svg'), href: '#' },
+          { name: 'Instagram', img: require('@/assets/icons/instagram.svg'), href: '#' },
+          { name: 'Twitter', img: require('@/assets/icons/twitter.svg'), href: '#' },
+          { name: 'Youtube', img: require('@/assets/icons/youtube.svg'), href: '#' },
         ],
         copyright: {
           claim: '僅供個人學習，無商業用途',

@@ -27,7 +27,7 @@
               <div class="flex-grow-1 d-flex flex-column text-center position-relative">
                 <div class="my-auto">
                   <img class="mw-100" style="object-fit: contain; height: 320px"
-                    :src="tempRecipe.imageUrl">
+                    :src="tempRecipe.imageUrl" alt />
                 </div>
                 <div v-if="tempRecipe.imageUrl" class="position-absolute top-0 end-0">
                   <button class="btn-close" type="button" @click="deleteImage" />

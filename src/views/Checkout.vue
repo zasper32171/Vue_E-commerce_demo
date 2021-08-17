@@ -24,15 +24,17 @@
         </table>
         <div class="row align-items-center border-top border-primary mt-3 mx-0 g-0">
           <div class="col-md-7 ps-md-3 pe-md-5 mt-md-3 mt-4 mb-md-0 mb-3 order-md-0 order-1">
-            <form>
-              <div class="input-group input-group-sm">
-                <input class="form-control" type="text" placeholder="請輸入優惠碼" v-model="code" />
+            <Form @submit="addCoupon(code)">
+              <div class="input-group">
+                <Field name="優惠碼" class="form-control" type="text" placeholder="請輸入優惠碼"
+                  v-model="code" rules="required|alpha_num" :validateOnChange="false"
+                  :validateOnBlur="false" />
                 <div class="input-group-append ms-3">
-                  <button class="btn btn-sm btn-decorative" type="submit"
-                    @click.prevent="if (code) { addCoupon(code); }">套用優惠碼</button>
+                  <button class="btn btn-sm btn-decorative" type="submit">套用優惠碼</button>
                 </div>
               </div>
-            </form>
+              <ErrorMessage as="div" name="優惠碼" class="position-absolute ls-sm fs-8 text-danger" />
+            </Form>
           </div>
           <div class="col-md-5">
             <table class="lh-base w-100">
@@ -69,7 +71,7 @@
             <div class="col-sm mb-4">
               <div class="form-group">
                 <label for="input-name">
-                  <img class="mb-1" src="@/assets/icons/user-light.svg" width="16">
+                  <img class="mb-1" src="@/assets/icons/user-light.svg" width="16" alt />
                   <span> 姓名</span>
                   <span class="text-danger">*</span>
                 </label>
@@ -78,14 +80,14 @@
                   v-model="order.user.name" />
                 <div class="position-relative">
                   <ErrorMessage name="姓名"
-                    class="position-absolute end-0 fw-bold fs-8 text-danger mt-1" />
+                    class="position-absolute end-0 ls-sm fs-8 text-danger mt-1" />
                 </div>
               </div>
             </div>
             <div class="col-sm mb-4">
               <div class="form-group">
                 <label for="input-tele">
-                  <img class="mb-1" src="@/assets/icons/phone-light.svg" width="16">
+                  <img class="mb-1" src="@/assets/icons/phone-light.svg" width="16" alt />
                   <span> 電話</span>
                   <span class="text-danger">*</span>
                 </label>
@@ -94,40 +96,38 @@
                   rules="required|numeric" v-model="order.user.tel" />
                 <div class="position-relative">
                   <ErrorMessage name="電話"
-                    class="position-absolute end-0 fw-bold fs-8 text-danger mt-1" />
+                    class="position-absolute end-0 ls-sm fs-8 text-danger mt-1" />
                 </div>
               </div>
             </div>
           </div>
           <div class="form-group mb-4">
             <label for="input-mail">
-              <img class="mb-1" src="@/assets/icons/mail-light.svg" width="16">
+              <img class="mb-1" src="@/assets/icons/mail-light.svg" width="16" alt />
               <span> 信箱</span>
               <span class="text-danger">*</span>
             </label>
             <Field id="input-mail" name="信箱" class="form-control form-control-sm input-underline"
               type="email" rules="required|email" v-model="order.user.email" />
             <div class="position-relative">
-              <ErrorMessage name="信箱"
-                class="position-absolute end-0 fw-bold fs-8 text-danger mt-1" />
+              <ErrorMessage name="信箱" class="position-absolute end-0 ls-sm fs-8 text-danger mt-1" />
             </div>
           </div>
           <div class="form-group mb-4">
             <label for="input-address">
-              <img class="mb-1" src="@/assets/icons/home-light.svg" width="16">
+              <img class="mb-1" src="@/assets/icons/home-light.svg" width="16" alt />
               <span> 地址</span>
               <span class="text-danger">*</span>
             </label>
             <Field id="input-address" name="地址" class="form-control form-control-sm input-underline"
               type="text" rules="required" v-model="order.user.address" />
             <div class="position-relative">
-              <ErrorMessage name="地址"
-                class="position-absolute end-0 fw-bold fs-8 text-danger mt-1" />
+              <ErrorMessage name="地址" class="position-absolute end-0 ls-sm fs-8 text-danger mt-1" />
             </div>
           </div>
           <div class="form-group mb-4">
             <label for="select-payment">
-              <img class="mb-1" src="@/assets/icons/dollar-light.svg" width="16">
+              <img class="mb-1" src="@/assets/icons/dollar-light.svg" width="16" alt />
               <span> 付款方式</span>
               <span class="text-danger">*</span>
             </label>
@@ -145,12 +145,12 @@
             </Field>
             <div class="position-relative">
               <ErrorMessage name="付款方式"
-                class="position-absolute end-0 fw-bold fs-8 text-danger mt-1" />
+                class="position-absolute end-0 ls-sm fs-8 text-danger mt-1" />
             </div>
           </div>
           <div class="form-group">
             <label for="textarea-comment">
-              <img src="@/assets/icons/comment-light.svg" width="16">
+              <img src="@/assets/icons/comment-light.svg" width="16" alt />
               <span> 備註</span>
             </label>
             <textarea id="textarea-comment" class="form-control form-control-sm" rows="6"
@@ -164,7 +164,7 @@
               <span class="text-danger">*&ensp;</span>
             </label>
             <ErrorMessage name="agreement">
-              <label class="fw-bold fs-8 text-danger"><span>您必須同意會員條款</span></label>
+              <label class="ls-sm fs-8 text-danger"><span>您必須同意會員條款</span></label>
             </ErrorMessage>
           </div>
           <div class="d-flex">
@@ -218,8 +218,8 @@ export default {
         this.total = Math.floor(res.data.final_total);
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.messages.join('、'));
         this.$router.push('/');
       };
 

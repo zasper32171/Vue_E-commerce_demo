@@ -3,7 +3,7 @@
     :style="{backgroundImage: `url(${require('@/assets/images/challenge-bg.jpg')})`}">
     <div class="text-center">
       <h2 class="mb-0 lh-1">知識酒窖</h2>
-      <img class="mw-100" src="@/assets/decs/title-dec.png">
+      <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
     </div>
     <div class="container my-auto">
       <div class="row pt-5 pb-6">
@@ -34,13 +34,13 @@
         <div class="input-group mb-4">
           <input class="form-control" type="text" :value="code" readonly />
           <button class="btn btn-outline-gray" type="button" @click="copy">
-            <img :src="require('@/assets/icons/copy-light.svg')" width="18">
+            <img :src="require('@/assets/icons/copy-light.svg')" alt="Copy" width="18" />
             <span class="ls-sm"> 複製</span>
           </button>
         </div>
-        <div class="d-flex justify-content-around mt-2 mb-3">
-          <button type="button" class="btn btn-outline-light" @click="again()">再玩一次</button>
-          <button type="button" class="btn btn-primary"
+        <div class="d-flex justify-content-end mt-2 mb-3">
+          <button class="btn btn-outline-light" type="button" @click="again()">再玩一次</button>
+          <button class="btn btn-primary ms-4" type="button"
             @click="$router.push('/products');">前往購物</button>
         </div>
       </div>

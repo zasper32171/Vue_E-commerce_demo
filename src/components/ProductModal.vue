@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-gray-dark p-sm-3 p-1">
+      <div class="modal-content bg-gray-dark p-sm-3 p-2">
         <button class="ms-auto btn-close text-light" type="button" data-bs-dismiss="modal" />
         <div class="text-center pb-sm-3 pb-2 px-sm-4 px-2">
           <div class="mb-4">
@@ -10,7 +10,8 @@
           </div>
           <div class="container">
             <div class="row text-center">
-              <img class="col-md-8 col-sm-8 col-9 mx-auto" :src="tempProduct.imageUrl">
+              <img class="col-md-8 col-sm-8 col-9 mx-auto" :src="tempProduct.imageUrl"
+                :alt="tempProduct.subtitle" />
             </div>
           </div>
           <div class="ls-sm">
@@ -24,7 +25,7 @@
               {{ $helper.currency(tempProduct.origin_price) }}
             </span>
           </div>
-          <Counter class="counter-lg w-100" fixed v-model:value="tempProduct.qty" />
+          <Counter class="counter-lg w-100 mb-3" fixed v-model:value="tempProduct.qty" />
           <button class="btn btn-primary w-100" type="button" data-bs-dismiss="modal"
             @click="submitCartItem">加入購物車</button>
         </div>

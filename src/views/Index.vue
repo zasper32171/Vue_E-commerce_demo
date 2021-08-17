@@ -4,7 +4,7 @@
       <Carousel :itemNum="slides.length" :isFade="true">
         <div v-for="(slide, index) in slides" :key="slide"
           class="carousel-item d-block vh-100 bg-cover bg-center" :class="{active: (index === 0)}"
-          :style="{backgroundImage: `url(${slide.img})`}">
+          :style="{backgroundImage: `url(${slide.image})`}">
           <div class="row g-0 h-100 align-items-center
               justify-content-lg-start justify-content-center">
             <div class="offset-lg-2 col-auto text-center">
@@ -27,11 +27,11 @@
       class="min-vh-100 d-flex flex-column pt-7">
       <div class="text-center">
         <h2 class="mb-0 lh-1">{{ section.title }}</h2>
-        <img class="mw-100" src="@/assets/decs/title-dec.png">
+        <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
       </div>
       <div class="flex-grow-1 d-flex container-fluid position-relative overflow-hidden">
         <img class="position-absolute bottom-0 mh-100" :class="[(index % 2)? 'end-0': 'start-0']"
-          :src="section.img">
+          :src="section.image.src" :alt="section.image.alt" />
         <div class="flex-grow-1 row align-items-center">
           <div class="col-xl-3 col-sm-6 offset-sm-3 col-10 offset-1 py-5"
             :class="[!(index % 2)? 'offset-xl-7': 'offset-xl-2']">
@@ -51,7 +51,7 @@
     <section class="min-vh-100 d-flex flex-column pt-7">
       <div class="text-center">
         <h2 class="mb-0 lh-1">今日酒譜</h2>
-        <img class="mw-100" src="@/assets/decs/title-dec.png">
+        <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
       </div>
       <div class="container my-auto">
         <div class="row pt-sm-5 pt-3 pb-5">
@@ -63,7 +63,7 @@
                 <div class="row align-items-center justify-content-center">
                   <div class="col-lg-4 align-self-center mx-lg-0 mx-5">
                     <div class="position-relative mx-md-0 mx-4">
-                      <img class="w-100" :src="recipe.imageUrl">
+                      <img class="w-100" :src="recipe.imageUrl" :alt="recipe.subtitle" />
                       <div class="cover-parent mask"></div>
                     </div>
                   </div>
@@ -124,6 +124,8 @@
 </template>
 
 <script>
+/* eslint-disable global-require */
+
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
 
 import Carousel from '@/components/Carousel.vue';
@@ -136,21 +138,21 @@ export default {
     return {
       slides: [
         {
-          img: require('@/assets/images/index-carousel-0.jpg'),
+          image: require('@/assets/images/index-carousel-0.jpg'),
           title: '獨特風味 尊絕不凡',
           text:
             '以完美比例調和，層次豐富而鮮明<br />細緻迷人韻味於舌尖綻放<br />僅獻給極致味蕾體驗的追尋者',
           button: { text: '威士忌系列', href: '/products?type=威士忌' },
         },
         {
-          img: require('@/assets/images/index-carousel-1.jpg'),
+          image: require('@/assets/images/index-carousel-1.jpg'),
           title: '清新芬芳 純淨優雅',
           text:
             '澄澈透明的酒體，卻蘊含濃烈香氣<br />杜松子與橙皮點亮活潑輕盈風味<br />適合於各式調酒中抒展個性',
           button: { text: '琴酒系列', href: '/products?type=琴酒' },
         },
         {
-          img: require('@/assets/images/index-carousel-2.jpg'),
+          image: require('@/assets/images/index-carousel-2.jpg'),
           title: '酒窖奧秘 一探究竟',
           text: '前往「知識酒窖」回答威士忌相關問題<br />挑戰成功即可獲得優惠券！',
           button: { text: '優惠活動', href: '/events' },
@@ -158,20 +160,20 @@ export default {
       ],
       sections: [
         {
-          img: require('@/assets/images/index-0.jpg'),
+          image: { src: require('@/assets/images/index-0.jpg'), alt: 'First Distillery' },
           title: '質樸小鎮 孕育傳奇',
           text:
             '1887年，蘇格蘭北方斯貝賽區的一處小鎮—哈羅鎮，一座小酒廠在此根基，這便是 Golden Ronny 榮耀故事的序章，自此百餘年間，它始終俯瞰著物富豐饒的高賽平原，不斷寫下一頁頁璀璨的歷史篇章。',
           button: { text: '品牌故事', href: '/story' },
         },
         {
-          img: require('@/assets/images/index-1.jpg'),
+          image: { src: require('@/assets/images/index-1.jpg'), alt: 'Distiller' },
           title: '極致工藝 絕不妥協',
           text:
             '一道道繁複工法，都是經過 Golden Ronny 歷代調酒師不斷凝練昇華的積累，為了堅守最卓越的風味，以最高標準嚴謹把關，從未鬆懈一毫。',
         },
         {
-          img: require('@/assets/images/index-2.jpg'),
+          image: { src: require('@/assets/images/index-2.jpg'), alt: 'Cellar' },
           title: '追尋完美 永無止境',
           text:
             '是什麼造就了 Golden Ronny 的雋永與不凡？<br />尊重傳統，同時積極創新，是 Golden Ronny 所堅持信奉的價值，一次又一次近乎偏執的追尋，只為將最尊貴美好的體驗發掘並獻予世人，無止境而不悔。',
@@ -190,8 +192,8 @@ export default {
         this.recipes.push(res.article);
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
       };
 
       return this.sendRequest('getArticle', params, null, onSuccess, onFailure).finally(
@@ -211,7 +213,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~bootstrap/scss/_functions';
-@import '@/styles/custom/_variables';
+@import '@/assets/scss/custom/_variables';
 
 @media only screen and (max-width: #{map-get($grid-breakpoints, 'xl')}) {
   #carousel-recipe::v-deep(.carousel-control-prev),

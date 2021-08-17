@@ -28,11 +28,10 @@
             </td>
             <td class="text-center">
               <div class="btn-group">
-                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal"
                   data-bs-target="#dashboard-modal" @click="showModal(recipe)">編輯</button>
-                <button class="btn btn-outline-danger btn-sm" @click="deleteRecipe(recipe)">
-                  刪除
-                </button>
+                <button class="btn btn-outline-danger btn-sm" type="button"
+                  @click="onDeleteRecipe(recipe)">刪除</button>
               </div>
             </td>
           </tr>
@@ -46,14 +45,14 @@
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
-import { MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
+import { DialogTransmitterMixin, MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
 
 import RecipeModal from '@/components/AdminRecipeModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'AdminRecipes',
-  mixins: [RequestSenderMixin, MessageTransmitterMixin],
+  mixins: [RequestSenderMixin, DialogTransmitterMixin, MessageTransmitterMixin],
   components: { RecipeModal, Pagination },
   data() {
     return {
@@ -155,10 +154,10 @@ export default {
           this.getRecipes(this.pagination.current_page);
         });
     },
+    onDeleteRecipe(recipe) {
+      this.pushConfirm('刪除酒譜', '確定刪除酒譜？', this.deleteRecipe.bind(this, recipe));
+    },
     deleteRecipe(recipe) {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除酒譜？')) return Promise.reject();
-
       this.$loading.show();
 
       const params = { id: recipe.id };

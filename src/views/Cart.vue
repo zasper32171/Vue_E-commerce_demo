@@ -3,7 +3,7 @@
     <section>
       <div class="text-center">
         <h2 class="mb-0 lh-1">購物車</h2>
-        <img class="mw-100" src="@/assets/decs/title-dec.png">
+        <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
       </div>
       <div class="row py-5">
         <div class="col-xxl-8 mb-xxl-0">
@@ -22,7 +22,7 @@
               <tr v-for="item in items" :key="item" :ref="(el) => {if (el) pushSizeSyncEl(el);}">
                 <td>
                   <router-link :to="`/product/${item.product.id}`">
-                    <img width="96" :src="item.product.imageUrl">
+                    <img :src="item.product.imageUrl" :alt="item.product.subtitle" width="96" />
                   </router-link>
                 </td>
                 <td>
@@ -47,8 +47,8 @@
                 </td>
                 <td class="text-center ps-0">
                   <button class="btn text-reset shadow-none" type="button"
-                    @click="deleteCartItem(item)">
-                    <img src="@/assets/icons/trash.svg" width="22">
+                    @click="onDeleteCartItem(item)">
+                    <img src="@/assets/icons/trash.svg" alt="Delete" width="22" />
                   </button>
                 </td>
               </tr>
@@ -59,7 +59,7 @@
               <tr class="fs-sm-6 fs-7 text-nowrap">
                 <th></th>
                 <th class="py-2 d-sm-table-cell d-none">單價</th>
-                <th class="py-2">數量</th>
+                <th class="py-2 text-start">數量</th>
                 <th class="py-2">小計</th>
                 <th></th>
               </tr>
@@ -69,7 +69,7 @@
                 <tr>
                   <td rowspan="2">
                     <router-link :to="`/product/${item.product.id}`">
-                      <img width="64" :src="item.product.imageUrl">
+                      <img :src="item.product.imageUrl" :alt="item.product.subtitle" width="64" />
                     </router-link>
                   </td>
                   <td class="position-relative border-0 px-1 pb-0 d-sm-table-cell d-none"
@@ -93,8 +93,8 @@
                   </td>
                   <td class="text-center px-1" rowspan="2">
                     <button class="btn text-reset shadow-none" type="button"
-                      @click="deleteCartItem(item)">
-                      <img src="@/assets/icons/trash.svg" width="18">
+                      @click="onDeleteCartItem(item)">
+                      <img src="@/assets/icons/trash.svg" alt="Delete" width="18" />
                     </button>
                   </td>
                 </tr>
@@ -118,22 +118,22 @@
               </template>
             </tbody>
           </table>
-          <div v-if="items.length" class="text-end mb-4">
-            <button class="btn text-primary fs-7" @click="deleteCart">刪除所有項目</button>
+          <div v-if="!isEmpty" class="text-end mb-4">
+            <button class="btn text-primary fs-7" type="button"
+              @click="onDeleteCart">刪除所有項目</button>
           </div>
-          <div v-else-if="!loading" class="text-center mt-8">
+          <div v-else-if="isInitialized" class="text-center mt-8">
             <div class="mb-3">尚未加入任何商品</div>
             <div>
               <router-link to="/products">
-                <button class="btn btn-primary">前往購物</button>
+                <button class="btn btn-primary" type="button">前往購物</button>
               </router-link>
             </div>
           </div>
         </div>
         <div class="col-xxl-4 col-xl-6 col-lg-7 col-md-9 mx-auto">
-          <div class="d-xxl-block px-4 pt-2 pb-3 bg-gray-dark"
-            :class="{'d-none': !this.items.length}">
-            <table class="lh-base w-100 mb-3">
+          <div class="d-xxl-block px-4 pt-2 pb-3 bg-gray-dark" :class="{'d-none': isEmpty}">
+            <table class="lh-base w-100">
               <thead class="fs-4 text-center text-primary border-bottom border-primary">
                 <tr>
                   <td class="pb-2" colspan="100%">訂單總額</td>
@@ -160,18 +160,21 @@
                 </tr>
               </tfoot>
             </table>
-            <form class="mb-3">
-              <div class="input-group">
-                <input class="form-control" type="text" placeholder="請輸入優惠碼" v-model="code" />
+            <Form class="position-relative pt-1 mb-3" @submit="addCoupon(code)">
+              <ErrorMessage v-if="!isEmpty" as="div" name="優惠碼"
+                class="position-absolute lh-1 ls-sm fs-8 text-danger" />
+              <div class="input-group mt-3">
+                <Field name="優惠碼" class="form-control" type="text" placeholder="請輸入優惠碼"
+                  v-model="code" rules="required|alpha_num" :validateOnChange="false"
+                  :validateOnBlur="false" :disabled="isEmpty" />
                 <div class="input-group-append ms-3">
-                  <button class="btn btn-sm btn-decorative" type="submit"
-                    @click.prevent="if (items.length && code) { addCoupon(code); }">
-                    套用優惠碼</button>
+                  <button class="btn btn-sm btn-decorative" :class="{disabled: isEmpty}"
+                    type="submit">套用優惠碼</button>
                 </div>
               </div>
-            </form>
-            <button class="btn btn-primary w-100" type="button"
-              @click="if (items.length) { this.redirect = true; }">前往結賬</button>
+            </Form>
+            <button class="btn btn-primary w-100" :class="{disabled: isEmpty}" type="button"
+              @click="this.isRedirecting = true">前往結賬</button>
           </div>
         </div>
       </div>
@@ -179,26 +182,39 @@
     <section class="mt-8">
       <div class="text-center col-8 mx-auto">
         <h3 class="mb-0 lh-1">精選推薦</h3>
-        <img class="mw-100" src="@/assets/decs/title-dec-sm.png">
+        <img class="mw-100" src="@/assets/decs/title-dec-sm.png" alt />
       </div>
       <div class="col-md-9 mx-auto">
-        <div class="row row-cols-sm-3 row-cols-2 align-items-center gx-xl-7 gx-sm-5 gy-4 mt-5">
-          <div v-for="recommend in recommends" :key="recommend" class="col">
-            <div class="position-relative">
-              <img class="w-100" :src="recommend.imageUrl">
-              <div class="cover-parent overlay-dark hover text-center lh-sm ls-sm d-flex
+        <div class="row row-cols-sm-3 row-cols-2 align-items-stretch gx-xl-7 gx-sm-5 gy-4 mt-5">
+          <div v-for="recommend in recommends" :key="recommend"
+            class="col d-flex flex-column lh-sm">
+            <div class="d-flex flex-column"
+              :ref="(el) => {if (el) pushSizeSyncEl(el, 'recommend');}">
+              <div class="position-relative">
+                <img class="w-100" :src="recommend.imageUrl" :alt="recommend.subtitle" />
+                <div class="cover-parent overlay-dark hover text-center ls-sm d-flex
                     flex-column justify-content-center">
-                <div class="fs-8 fw-bold text-uppercase mb-3">{{ recommend.subtitle }}</div>
-                <div class="mb-2">{{ recommend.title }}</div>
-                <div class="fw-bold text-primary">
-                  <span class="fs-5">{{ $helper.currency(recommend.price) }}</span>
-                  <span class="fs-6">/{{ recommend.unit }}&nbsp;</span>
-                  <span class="fs-6 text-decoration-line-through">
-                    {{ $helper.currency(recommend.origin_price) }}
-                  </span>
+                  <div class="fs-8 fw-bold text-uppercase mb-3">{{ recommend.subtitle }}</div>
+                  <div class="mb-2">{{ recommend.title }}</div>
+                  <div class="fw-bold text-primary">
+                    <span class="fs-5">{{ $helper.currency(recommend.price) }}</span>
+                    <span class="fs-6">/{{ recommend.unit }}&nbsp;</span>
+                    <span class="fs-6 text-decoration-line-through">
+                      {{ $helper.currency(recommend.origin_price) }}
+                    </span>
+                  </div>
+                  <router-link class="stretched-link" :to="`/product/${recommend.id}`" />
                 </div>
-                <router-link class="stretched-link" :to="`/product/${recommend.id}`" />
               </div>
+              <router-link class="fs-8 fw-bold ls-sm text-center text-uppercase pt-3 text-light
+                text-decoration-none text-truncate truncate-multi-line"
+                :to="`/product/${recommend.id}`">
+                {{ recommend.subtitle }}
+              </router-link>
+              <router-link class="fs-6 ls-sm text-center pt-1 text-light text-decoration-none"
+                :to="`/product/${recommend.id}`">
+                {{ recommend.title }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -209,14 +225,24 @@
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
-import { TransmitterMixin, MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
+import {
+  TransmitterMixin,
+  DialogTransmitterMixin,
+  MessageTransmitterMixin,
+} from '@/mixins/MessageTransMixins';
 import SizeSynchronizer from '@/mixins/SizeSynchronizerMixin';
 
 import Counter from '@/components/Counter.vue';
 
 export default {
   name: 'Cart',
-  mixins: [RequestSenderMixin, TransmitterMixin, MessageTransmitterMixin, SizeSynchronizer],
+  mixins: [
+    RequestSenderMixin,
+    TransmitterMixin,
+    DialogTransmitterMixin,
+    MessageTransmitterMixin,
+    SizeSynchronizer,
+  ],
   components: { Counter },
   data() {
     return {
@@ -228,22 +254,25 @@ export default {
       recommends: [],
 
       debouncingTime: 600,
-      blocking: 0,
-      redirect: false,
+      blockingCount: 0,
+      isRedirecting: false,
 
-      loading: true,
+      isInitialized: false,
     };
   },
   computed: {
     discount() {
       return this.subtotal - this.total;
     },
-    redirecting() {
-      return this.blocking === 0 && this.redirect;
+    isEmpty() {
+      return this.items.length === 0;
+    },
+    tpRedirect() {
+      return this.blockingCount === 0 && this.isRedirecting;
     },
   },
   watch: {
-    redirecting(val) {
+    tpRedirect(val) {
       if (val) this.$router.push('/checkout');
     },
   },
@@ -264,8 +293,8 @@ export default {
         });
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.messages.join('、'));
       };
 
       return this.sendRequest('getCart', null, null, onSuccess, onFailure).finally(
@@ -291,21 +320,21 @@ export default {
       let timer;
 
       return () => {
-        if (!timer) this.blocking += 1;
+        if (!timer) this.blockingCount += 1;
 
         clearTimeout(timer);
         timer = setTimeout(() => {
           this.updateCartItem(item).then(() => {
             timer = null;
-            this.blocking -= 1;
+            this.blockingCount -= 1;
           });
         }, this.debouncingTime);
       };
     },
+    onDeleteCartItem(item) {
+      this.pushConfirm('刪除商品', '確定刪除商品？', this.deleteCartItem.bind(this, item));
+    },
     deleteCartItem(item) {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除商品？')) return Promise.reject();
-
       this.$loading.show();
 
       const params = { id: item.id };
@@ -322,10 +351,10 @@ export default {
         .finally(this.$loading.hide)
         .finally(this.getCart);
     },
+    onDeleteCart() {
+      this.pushConfirm('刪除所有商品', '確定刪除所有商品？', this.deleteCart.bind(this));
+    },
     deleteCart() {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除所有商品？')) return Promise.reject();
-
       this.$loading.show();
 
       const onSuccess = () => {
@@ -366,8 +395,8 @@ export default {
         this.recommends.push(res.product);
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
       };
 
       return this.sendRequest('getProduct', params, null, onSuccess, onFailure).finally(
@@ -382,7 +411,7 @@ export default {
       this.getRecommend('-MfcVb5MXu5GHb2WuWWp'),
       this.getRecommend('-MfcVa6OCPiduvMx5s9C'),
     ]).then(() => {
-      this.loading = false;
+      this.isInitialized = true;
     });
   },
 };

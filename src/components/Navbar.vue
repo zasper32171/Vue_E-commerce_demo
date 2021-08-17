@@ -2,15 +2,15 @@
   <nav class="navbar navbar-expand-lg fixed-top pb-3 navbar-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand text-reset py-0" to="/" @click="collapse.hide()">
-        <img src="@/assets/logo.png">
+        <img src="@/assets/logo.png" alt="Golden Ronny" />
       </router-link>
       <router-link class="icon text-reset ms-auto p-sm-2 p-1 order-lg-1" to="/login"
         @click="collapse.hide()">
-        <img src="@/assets/icons/user-light.svg">
+        <img src="@/assets/icons/user-light.svg" alt="User" />
       </router-link>
       <router-link class="icon position-relative text-reset p-sm-2 p-1 order-lg-1" to="/cart"
         @click="collapse.hide()">
-        <img src="@/assets/icons/cart-light.svg">
+        <img src="@/assets/icons/cart-light.svg" alt="Cart" />
         <span v-if="itemCount !==0"
           class="position-absolute top-0 end-0 badge rounded-pill bg-danger font-sans">
           {{ itemCount }}
@@ -43,9 +43,7 @@ export default {
   props: {
     routes: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => [],
     },
   },
   data() {
@@ -60,8 +58,8 @@ export default {
         this.itemCount = res.data.carts.length;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.messages.join('、'));
       };
 
       return this.sendRequest('getCart', null, null, onSuccess, onFailure);
@@ -79,7 +77,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~bootstrap/scss/_functions';
-@import '@/styles/custom/_variables';
+@import '@/assets/scss/custom/_variables';
 
 .navbar {
   background-image: linear-gradient(

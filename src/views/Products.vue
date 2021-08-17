@@ -2,7 +2,7 @@
   <div class="min-vh-100 py-7">
     <div class="text-center">
       <h2 class="mb-0 lh-1">系列酒藏</h2>
-      <img class="mw-100" src="@/assets/decs/title-dec.png" />
+      <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
     </div>
     <div class="container">
       <div class="col-lg-11 col mx-auto mt-lg-5 mb-lg-6 my-4">
@@ -21,7 +21,7 @@
               <div class="input-group input-group-sm justify-content-end">
                 <button class="btn" type="button" data-bs-toggle="collapse"
                   data-bs-target="#input-search">
-                  <img src="@/assets/icons/loupe-light.svg" width="20" />
+                  <img src="@/assets/icons/loupe-light.svg" alt="search" width="20" />
                 </button>
                 <input id="input-search" class="form-control input-underline shadow-none collapse"
                   :class="{show: search}" type="text" v-model.lazy="search" />
@@ -30,12 +30,12 @@
             <div>
               <button class="btn d-xl-none" type="button" data-bs-toggle="collapse"
                 data-bs-target="#filters">
-                <img src="@/assets/icons/filter-light.svg" width="20" />
+                <img src="@/assets/icons/filter-light.svg" alt="filters" width="20" />
               </button>
             </div>
             <div class="dropdown">
               <button class="btn" type="button" data-bs-toggle="dropdown">
-                <img src="@/assets/icons/sort-light.svg" width="20" />
+                <img src="@/assets/icons/sort-light.svg" alt="sort" width="20" />
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li v-for="(option, index) in sort.options" :key="index">
@@ -62,7 +62,7 @@
               class="col d-flex flex-column lh-sm">
               <div class="d-flex flex-column" :ref="(el) => {if (el) pushSizeSyncEl(el);}">
                 <div class="position-relative w-100 my-auto">
-                  <img class="w-100" :src="product.imageUrl" />
+                  <img class="w-100" :src="product.imageUrl" :alt="product.subtitle" />
                   <div class="cover-parent overlay-dark hover d-sm-flex d-none align-items-center">
                     <div class="d-flex flex-column mx-auto">
                       <router-link :to="`/product/${product.id}`">
@@ -101,10 +101,13 @@
         </div>
       </div>
     </div>
-    <template v-if="!loading">
-      <Pagination v-if="filtered.length" class="mt-6" :pages="pagination"
-        @updatePage="updatePage" />
-      <div v-else class="text-center fw-medium mt-8">沒有符合條件的商品</div>
+    <template v-if="isInitialized">
+      <Pagination v-if="!isEmpty" class="mt-6" :pages="pagination" @updatePage="updatePage" />
+      <div v-else class="text-center mt-8">
+        <div class="fw-medium">沒有符合條件的商品</div>
+        <button class="btn ls-0 btn-primary mt-4" type="button"
+          @click="resetFilters">重設篩選條件</button>
+      </div>
     </template>
   </div>
   <ProductModal id="product-modal" :product="modalItem" @submit-cart-item="addCartItem" />
@@ -131,6 +134,7 @@ export default {
       filters: [
         {
           name: 'type',
+          default: '',
           value: '',
           options: [
             { content: '所有類別', value: '' },
@@ -143,6 +147,7 @@ export default {
         },
         {
           name: 'materials',
+          default: '',
           value: '',
           options: [
             { content: '所有原料&emsp;&emsp;', value: '' },
@@ -162,6 +167,7 @@ export default {
         },
         {
           name: 'region',
+          default: '',
           value: '',
           options: [
             { content: '所有產區', value: '' },
@@ -180,6 +186,7 @@ export default {
         },
         {
           name: 'price',
+          default: [],
           value: [],
           options: [
             { content: '不限價格', value: [] },
@@ -188,6 +195,7 @@ export default {
             { content: '1000~1999元', value: [1000, 1999] },
             { content: '2000元以上', value: [2000] },
           ],
+          parse: (str) => JSON.parse(str),
           func(product) {
             return (
               (!this.value[0] || product.price >= this.value[0])
@@ -197,17 +205,18 @@ export default {
         },
       ],
       sort: {
+        default: 0,
+        value: 0,
         options: [
           { name: '上架時間', func: () => false },
           { name: '價格低至高', func: (p, q) => p.price - q.price },
           { name: '價格高至低', func: (p, q) => q.price - p.price },
         ],
-        value: 0,
       },
 
       page: 1,
       itemsPerPage: 12,
-      loading: true,
+      isInitialized: false,
     };
   },
   computed: {
@@ -225,6 +234,9 @@ export default {
         (this.page - 1) * this.itemsPerPage,
         this.page * this.itemsPerPage,
       );
+    },
+    isEmpty() {
+      return this.filtered.length === 0;
     },
     pagination() {
       return {
@@ -262,17 +274,28 @@ export default {
         this.sort.value = parseInt(query.sort, 10);
       }
 
+      this.filters.forEach((filter) => {
+        if (filter.name in query) {
+          // eslint-disable-next-line no-param-reassign
+          filter.value = filter.parse ? filter.parse(query[filter.name]) : query[filter.name];
+        }
+      });
+
+      // Parse page at last to prevent variation of watched data modify page.
       if ('page' in query && !Number.isNaN(query.page)) {
         this.page = parseInt(query.page, 10);
       }
-
-      this.filters.forEach((filter) => {
-        // eslint-disable-next-line no-param-reassign
-        if (filter.name in query) filter.value = query[filter.name];
-      });
     },
     defaultProduct() {
       return { info: {}, content: {}, qty: 1 };
+    },
+    resetFilters() {
+      this.search = '';
+      this.filters.forEach((filter) => {
+        // eslint-disable-next-line no-param-reassign
+        filter.value = filter.default;
+      });
+      this.sort.value = this.sort.default;
     },
     showModal(product) {
       this.modalItem = { ...product, qty: 1 };
@@ -284,8 +307,8 @@ export default {
         this.products = res.products;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.messages.join('、'));
       };
 
       return this.sendRequest('getProductsAll', null, null, onSuccess, onFailure).finally(
@@ -319,7 +342,7 @@ export default {
     this.parseQuery(this.$route.query);
 
     this.getAllProducts().then(() => {
-      this.loading = false;
+      this.isInitialized = true;
     });
   },
 };

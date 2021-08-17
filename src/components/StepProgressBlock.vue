@@ -12,9 +12,7 @@ export default {
   props: {
     direction: {
       type: String,
-      validator(value) {
-        return ['horizontal', 'vertical'].includes(value);
-      },
+      validator: (value) => ['horizontal', 'vertical'].includes(value),
       default: 'horizontal',
     },
     part: {

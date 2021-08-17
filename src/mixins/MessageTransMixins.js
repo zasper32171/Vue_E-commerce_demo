@@ -7,6 +7,15 @@ const RouterMixin = {
       emitter: mitt(),
     };
   },
+  data() {
+    return {
+      emitter: {},
+    };
+  },
+  created() {
+    // Hack: to ensure correct emitter for components being both router & rx/tx.
+    this.emitter = this.$.provides.emitter;
+  },
 };
 
 const TransmitterMixin = {
@@ -15,6 +24,28 @@ const TransmitterMixin = {
   methods: {
     emit(event, param) {
       this.emitter.emit(event, param);
+    },
+  },
+};
+
+const DialogTransmitterMixin = {
+  name: 'DialogTransmitterMixin',
+  extends: TransmitterMixin,
+  methods: {
+    pushDialog(type, title, content, onConfirm, onCancel) {
+      this.emit('push-dialog', {
+        type: type || 'alert',
+        title,
+        content,
+        onConfirm,
+        onCancel,
+      });
+    },
+    pushAlert(title, content, onConfirm) {
+      this.pushDialog('alert', title, content, onConfirm);
+    },
+    pushConfirm(title, content, onConfirm, onCancel) {
+      this.pushDialog('confirm', title, content, onConfirm, onCancel);
     },
   },
 };
@@ -49,6 +80,18 @@ const ReceiverMixin = {
   },
 };
 
+const DialogReceiverMixin = {
+  name: 'DialogReceiverMixin',
+  extends: ReceiverMixin,
+  methods: {
+    initDialogReceiver(queue) {
+      this.initReceiver('push-dialog', (alert) => {
+        queue.push(alert);
+      });
+    },
+  },
+};
+
 const MessageReceiverMixin = {
   name: 'MessageReceiverMixin',
   extends: ReceiverMixin,
@@ -64,7 +107,9 @@ const MessageReceiverMixin = {
 export {
   RouterMixin,
   TransmitterMixin,
+  DialogTransmitterMixin,
   MessageTransmitterMixin,
   ReceiverMixin,
+  DialogReceiverMixin,
   MessageReceiverMixin,
 };

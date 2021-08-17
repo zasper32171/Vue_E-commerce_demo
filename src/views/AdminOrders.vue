@@ -46,11 +46,10 @@
             </td>
             <td class="text-center">
               <div class="btn-group">
-                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal"
                   data-bs-target="#dashboard-modal" @click="showModal(order)">編輯</button>
-                <button class="btn btn-outline-danger btn-sm" @click="deleteOrder(order)">
-                  刪除
-                </button>
+                <button class="btn btn-outline-danger btn-sm" type="button"
+                  @click="onDeleteOrder(order)">刪除</button>
               </div>
             </td>
           </tr>
@@ -64,14 +63,14 @@
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
-import { MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
+import { DialogTransmitterMixin, MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
 
 import OrderModal from '@/components/AdminOrderModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'AdminOrders',
-  mixins: [RequestSenderMixin, MessageTransmitterMixin],
+  mixins: [RequestSenderMixin, DialogTransmitterMixin, MessageTransmitterMixin],
   components: { OrderModal, Pagination },
   data() {
     return {
@@ -125,10 +124,10 @@ export default {
           this.getOrders(this.pagination.current_page);
         });
     },
+    onDeleteOrder(order) {
+      this.pushConfirm('刪除訂單', '確定刪除訂單？', this.deleteOrder.bind(this, order));
+    },
     deleteOrder(order) {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除訂單？')) return Promise.reject();
-
       this.$loading.show();
 
       const params = { id: order.id };

@@ -4,35 +4,37 @@
       <section class="row mt-lg-6">
         <div class="col-lg-3 col align-self-center">
           <div class="mx-lg-0 mx-sm-7 mx-5 my-lg-0 mb-5">
-            <img class="w-100" :src="product.imageUrl">
+            <img class="w-100" :src="product.imageUrl" :alt="product.subtitle" />
           </div>
         </div>
         <div class="offset-lg-1 col-lg-8 align-self-start">
-          <div class="row align-items-end border-bottom border-primary pb-sm-4 pb-1">
-            <div class="col-sm">
-              <h6 class="text-uppercase">{{ product.subtitle }}</h6>
-              <h2 class="mb-0">{{ product.title }}</h2>
-            </div>
-            <div class="col-auto">
-              <table class="font-sans fs-7 lh-sm ls-sm text-primary d-sm-block d-none">
-                <tr v-if="product.info.vintage">
-                  <td class="text-end">年份：</td>
-                  <td>{{ product.info.vintage }}年</td>
-                </tr>
-                <tr>
-                  <td class="text-end">酒精濃度：</td>
-                  <td>{{ product.info.abv }}％</td>
-                </tr>
-                <tr>
-                  <td class=" text-end">容量：</td>
-                  <td>{{ product.info.volume }}</td>
-                </tr>
-              </table>
-              <div class="d-sm-none d-block mt-3">
-                <p class="font-sanse fs-7 lh-sm ls-sm text-primary">
-                  <span v-if="product.info.vintage">{{ product.info.vintage }}年 /</span>
-                  {{ product.info.abv }}％ / {{ product.info.volume }}
-                </p>
+          <div class="border-bottom border-primary pb-sm-4 pb-1">
+            <div class="row align-items-end">
+              <div class="col-sm">
+                <h6 class="text-uppercase">{{ product.subtitle }}</h6>
+                <h2 class="mb-0">{{ product.title }}</h2>
+              </div>
+              <div class="col-auto">
+                <table class="font-sans fs-7 lh-sm ls-sm text-primary d-sm-block d-none">
+                  <tr v-if="product.info.vintage">
+                    <td class="text-end">年份：</td>
+                    <td>{{ product.info.vintage }}年</td>
+                  </tr>
+                  <tr>
+                    <td class="text-end">酒精濃度：</td>
+                    <td>{{ product.info.abv }}％</td>
+                  </tr>
+                  <tr>
+                    <td class=" text-end">容量：</td>
+                    <td>{{ product.info.volume }}</td>
+                  </tr>
+                </table>
+                <div class="d-sm-none d-block mt-3">
+                  <p class="font-sanse fs-7 lh-sm ls-sm text-primary">
+                    <span v-if="product.info.vintage">{{ product.info.vintage }}年 /</span>
+                    {{ product.info.abv }}％ / {{ product.info.volume }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -69,7 +71,7 @@
             </div>
             <div class="col d-flex justify-content-md-end justify-content-between">
               <Counter class="counter-lg flex-grow-1" v-model:value="product.qty" />
-              <button class="btn btn-primary ms-4" type="btn"
+              <button class="btn btn-primary ms-4" type="button"
                 @click="addCartItem(product)">加入購物車</button>
             </div>
           </div>
@@ -78,27 +80,39 @@
       <section class="mt-8">
         <div class="text-center col-8 mx-auto">
           <h3 class="mb-0 lh-1">精選推薦</h3>
-          <img class="mw-100" src="@/assets/decs/title-dec-sm.png">
+          <img class="mw-100" src="@/assets/decs/title-dec-sm.png" alt />
         </div>
         <div class="col-md-9 mx-auto">
-          <div class="row row-cols-sm-3 row-cols-2 align-items-center gx-xl-7 gx-sm-5 gy-4 mt-5">
-            <div v-for="recommend in recommends" :key="recommend" class="col">
-              <div class="position-relative">
-                <img class="w-100" :src="recommend.imageUrl">
-                <div class="cover-parent overlay-dark hover text-center lh-sm ls-sm d-flex
+          <div class="row row-cols-sm-3 row-cols-2 align-items-stretch gx-xl-7 gx-sm-5 gy-5 mt-5">
+            <div v-for="recommend in recommends" :key="recommend"
+              class="col d-flex flex-column lh-sm">
+              <div class="d-flex flex-column" :ref="(el) => {if (el) pushSizeSyncEl(el);}">
+                <div class="position-relative w-100 my-auto">
+                  <img class="w-100" :src="recommend.imageUrl" :alt="recommend.subtitle" />
+                  <div class="cover-parent overlay-dark hover text-center ls-sm d-flex
                     flex-column justify-content-center">
-                  <div class="fs-8 fw-bold text-uppercase mb-3">{{ recommend.subtitle }}</div>
-                  <div class="mb-2">{{ recommend.title }}</div>
-                  <div class="fw-bold text-primary">
-                    <span class="fs-5">{{ $helper.currency(recommend.price) }}</span>
-                    <span class="fs-6">/{{ recommend.unit }}&nbsp;</span>
-                    <span class="fs-6 text-decoration-line-through">
-                      {{ $helper.currency(recommend.origin_price) }}
-                    </span>
+                    <div class="fs-8 fw-bold text-uppercase mb-3">{{ recommend.subtitle }}</div>
+                    <div class="mb-2">{{ recommend.title }}</div>
+                    <div class="fw-bold text-primary">
+                      <span class="fs-5">{{ $helper.currency(recommend.price) }}</span>
+                      <span class="fs-6">/{{ recommend.unit }}&nbsp;</span>
+                      <span class="fs-6 text-decoration-line-through">
+                        {{ $helper.currency(recommend.origin_price) }}
+                      </span>
+                    </div>
+                    <router-link class="stretched-link" :to="`/product/${recommend.id}`" />
                   </div>
-                  <router-link class="stretched-link" :to="`/product/${recommend.id}`" />
                 </div>
               </div>
+              <router-link class="fs-8 fw-bold ls-sm text-center text-uppercase pt-3
+                text-light text-decoration-none text-truncate truncate-multi-line"
+                :to="`/product/${recommend.id}`">
+                {{ recommend.subtitle }}
+              </router-link>
+              <router-link class="fs-6 ls-sm text-center pt-1 text-light text-decoration-none"
+                :to="`/product/${recommend.id}`">
+                {{ recommend.title }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -138,8 +152,8 @@ export default {
         this.product.qty = 1;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
         this.$router.push('/products');
       };
 
@@ -156,8 +170,8 @@ export default {
         this.recommends.push(res.product);
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
       };
 
       return this.sendRequest('getProduct', params, null, onSuccess, onFailure).finally(

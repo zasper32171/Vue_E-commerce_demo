@@ -30,11 +30,10 @@
             </td>
             <td class="text-center">
               <div class="btn-group">
-                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal"
                   data-bs-target="#dashboard-modal" @click="showModal(product)">編輯</button>
-                <button class="btn btn-outline-danger btn-sm" @click="deleteProduct(product)">
-                  刪除
-                </button>
+                <button class="btn btn-outline-danger btn-sm" type="button"
+                  @click="onDeleteProduct(product)">刪除</button>
               </div>
             </td>
           </tr>
@@ -48,14 +47,14 @@
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
-import { MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
+import { DialogTransmitterMixin, MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
 
 import ProductModal from '@/components/AdminProductModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'AdminProducts',
-  mixins: [RequestSenderMixin, MessageTransmitterMixin],
+  mixins: [RequestSenderMixin, DialogTransmitterMixin, MessageTransmitterMixin],
   components: { ProductModal, Pagination },
   data() {
     return {
@@ -133,10 +132,10 @@ export default {
           this.getProducts(this.pagination.current_page);
         });
     },
+    onDeleteProduct(product) {
+      this.pushConfirm('刪除產品', '確定刪除產品？', this.deleteProduct.bind(this, product));
+    },
     deleteProduct(product) {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除產品？')) return Promise.reject();
-
       this.$loading.show();
 
       const params = { id: product.id };

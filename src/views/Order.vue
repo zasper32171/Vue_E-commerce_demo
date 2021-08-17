@@ -61,9 +61,8 @@ export default {
     };
   },
   watch: {
-    // eslint-disable-next-line func-names
-    'order.is_paid': function () {
-      this.$emit('update:step', this.order.is_paid ? 3 : 2);
+    'order.is_paid': function fn() {
+      this.$emit('update:step', !this.order.is_paid ? 2 : 3);
     },
   },
   methods: {
@@ -88,8 +87,8 @@ export default {
         this.order = res.order;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
         this.$router.push('/');
       };
 

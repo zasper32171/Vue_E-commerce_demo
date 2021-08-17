@@ -4,7 +4,7 @@
       <section class="row justify-content-center mt-lg-6">
         <div class="col-xl-3 col-lg-4 col-md-5 align-self-center">
           <div class="mx-md-0 mx-4">
-            <img class="w-100" :src="recipe.imageUrl">
+            <img class="w-100" :src="recipe.imageUrl" :alt="recipe.subtitle" />
           </div>
         </div>
         <div class="offset-lg-1 col-lg-6 col-md-7">
@@ -39,12 +39,12 @@
       <section class="mt-8">
         <div class="text-center col-8 mx-auto">
           <h3 class="mb-0 lh-1">相關商品</h3>
-          <img class="mw-100" src="@/assets/decs/title-dec-sm.png">
+          <img class="mw-100" src="@/assets/decs/title-dec-sm.png" alt />
         </div>
         <div class="row justify-content-center gx-lg-5 my-6">
           <div class="col-xl-3 col-lg-4 col-md-5 align-self-center">
             <div class="mx-md-0 mx-sm-7 mx-4">
-              <img class="w-100" :src="related.imageUrl">
+              <img class="w-100" :src="related.imageUrl" :alt="related.subtitle" />
             </div>
           </div>
           <div class="col-xl-4 col-lg-5 col-md-7">
@@ -58,18 +58,20 @@
                 {{ related.content.main }}
               </p>
             </div>
-            <div class="d-md-flex d-none justify-content-evenly mt-4">
-              <router-link :to="`/product/${related.id}`">
+            <div class="d-md-flex d-none row mt-4">
+              <router-link class="col text-center" :to="`/product/${related.id}`">
                 <button class="btn btn-decorative" type="button">瞭解更多</button>
               </router-link>
-              <button class="btn btn-decorative" type="button" data-bs-toggle="modal"
-                data-bs-target="#product-modal" @click="showModal(related)">加入購物車</button>
+              <div class="col text-center">
+                <button class="btn btn-decorative" type="button" data-bs-toggle="modal"
+                  data-bs-target="#product-modal" @click="showModal(related)">加入購物車</button>
+              </div>
             </div>
             <div class="d-md-none d-flex justify-content-center mt-4">
               <router-link :to="`/product/${related.id}`">
                 <button class="btn btn-sm btn-decorative" type="button">瞭解更多</button>
               </router-link>
-              <button class="btn btn-sm btn-decorative ms-sm-6 ms-4" type="button"
+              <button class="btn btn-sm btn-decorative ms-sm-6 ms-5" type="button"
                 data-bs-toggle="modal" data-bs-target="#product-modal"
                 @click="showModal(related)">加入購物車</button>
             </div>
@@ -79,24 +81,26 @@
       <section class="mt-8">
         <div class="text-center col-8 mx-auto">
           <h3 class="mb-0 lh-1">其他酒譜</h3>
-          <img class="mw-100" src="@/assets/decs/title-dec-sm.png">
+          <img class="mw-100" src="@/assets/decs/title-dec-sm.png" alt />
         </div>
         <div class="row">
           <div class="col-xl-9 col-lg-10 mx-auto mt-6">
             <div class="row gx-xl-7 gx-md-5 gx-sm-3 align-items-center">
-              <div v-for="recipe in recommends" :key="recipe" class="col-md">
-                <div class="position-relative mb-3">
-                  <img class="w-100" :src="recipe.imageUrl">
+              <router-link v-for="recipe in recommends" :key="recipe"
+                class="col-md d-block link-reset" :to="`/recipe/${recipe.id}`">
+                <div class="position-relative mb-3 ratio ratio-2x3">
+                  <img class="img-cover img-center w-100" :src="recipe.imageUrl"
+                    :alt="recipe.subtitle" />
                   <div class="cover-parent overlay hover
-                      d-flex flex-column text-center justify-content-center">
+                      d-flex flex-column text-center justify-content-center lh-base">
                     <div class="fs-7 fly-in-top">{{ recipe.subtitle }}</div>
                     <div class="fs-5 mb-2">{{ recipe.title }}</div>
                     <router-link class="fly-in-down" :to="`/recipe/${recipe.id}`">
-                      <button class="btn btn-sm btn-decorative">查看酒譜</button>
+                      <button class="btn btn-sm btn-decorative" type="button">查看酒譜</button>
                     </router-link>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -145,8 +149,8 @@ export default {
         this.recipe = res.article;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
         this.$router.push('/recipes');
       };
 
@@ -163,8 +167,8 @@ export default {
         this.related = res.product;
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
       };
 
       return this.sendRequest('getProduct', params, null, onSuccess, onFailure).finally(
@@ -180,8 +184,8 @@ export default {
         this.recommends.push(res.article);
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.message);
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.message);
       };
 
       return this.sendRequest('getArticle', params, null, onSuccess, onFailure).finally(

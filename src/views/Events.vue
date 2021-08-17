@@ -3,7 +3,7 @@
     :style="{backgroundImage: `url(${require('@/assets/images/events-bg.jpg')})`}">
     <div class="text-center">
       <h2 class="mb-0 lh-1 text-primary-dark">知識酒窖</h2>
-      <img class="mw-100" src="@/assets/decs/title-dec-dark.png">
+      <img class="mw-100" src="@/assets/decs/title-dec-dark.png" alt />
     </div>
     <div class="container my-auto">
       <div class="row pt-2 pb-5">

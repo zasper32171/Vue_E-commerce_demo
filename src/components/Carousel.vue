@@ -2,17 +2,17 @@
   <div class="carousel slide" :class="{'carousel-fade': isFade}"
     :data-bs-ride="isAutoPlay? 'carousel': null" :data-bs-interval="interval" data-bs-pause="false">
     <div v-if="hasIndicator" class="carousel-indicators">
-      <button v-for="(_, index) in itemNum" :key="_" type="button" :class="{active: (index === 0)}"
+      <button v-for="(_, index) in itemNum" :key="_" :class="{active: (index === 0)}" type="button"
         data-bs-target="#carousel" :data-bs-slide-to="index" />
     </div>
     <div class="carousel-inner">
       <slot />
     </div>
-    <button v-if="hasControl" type="button" class="carousel-control-prev" :data-bs-target="`#${id}`"
+    <button v-if="hasControl" class="carousel-control-prev" type="button" :data-bs-target="`#${id}`"
       data-bs-slide="prev">
       <span class="carousel-control-prev-icon" />
     </button>
-    <button v-if="hasControl" type="button" class="carousel-control-next" :data-bs-target="`#${id}`"
+    <button v-if="hasControl" class="carousel-control-next" type="button" :data-bs-target="`#${id}`"
       data-bs-slide="next">
       <span class="carousel-control-next-icon" />
     </button>

@@ -28,14 +28,15 @@
         </div>
         <div :id="`${id}-collapse-contact`" class="accordion-collapse collapse">
           <div class="text-primary text-center my-1">
-            <img class="mb- me-2" src="@/assets/icons/phone-solid.svg" width="14">
-            <span class='text-reset fs-6'>{{ info.tele }}</span>
+            <img class="mb- me-2" src="@/assets/icons/phone-solid.svg" alt="Tele" width="14" />
+            <a class='text-reset fs-6 text-decoration-none' :href='info.tele.href'>
+              {{ info.tele.text }}</a>
           </div>
         </div>
       </div>
       <div class="text-center mb-4">
         <a v-for="medium in info.media" :key="medium" href="medium.href" class="me-2">
-          <img class="mx-2" :src="medium.img" width="20">
+          <img class="mx-2" :src="medium.img" :alt="medium.name" width="20" />
         </a>
       </div>
     </div>
@@ -53,18 +54,14 @@ export default {
   props: {
     routes: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => [],
     },
     info: {
       type: Object,
-      default() {
-        return {
-          phone: '',
-          media: [],
-        };
-      },
+      default: () => ({
+        phone: '',
+        media: [],
+      }),
     },
   },
   data() {

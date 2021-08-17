@@ -26,11 +26,10 @@
             </td>
             <td class="text-center">
               <div class="btn-group">
-                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal"
                   data-bs-target="#dashboard-modal" @click="showModal(coupon)">編輯</button>
-                <button class="btn btn-outline-danger btn-sm" @click="deleteCoupon(coupon)">
-                  刪除
-                </button>
+                <button class="btn btn-outline-danger btn-sm" type="button"
+                  @click="onDeleteCoupon(coupon)">刪除</button>
               </div>
             </td>
           </tr>
@@ -44,14 +43,14 @@
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
-import { MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
+import { DialogTransmitterMixin, MessageTransmitterMixin } from '@/mixins/MessageTransMixins';
 
 import CouponModal from '@/components/AdminCouponModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: 'AdminCoupons',
-  mixins: [RequestSenderMixin, MessageTransmitterMixin],
+  mixins: [RequestSenderMixin, DialogTransmitterMixin, MessageTransmitterMixin],
   components: { CouponModal, Pagination },
   data() {
     return {
@@ -129,10 +128,10 @@ export default {
           this.getCoupons(this.pagination.current_page);
         });
     },
+    onDeleteCoupon(order) {
+      this.pushConfirm('刪除優惠券', '確定刪除優惠券？', this.deleteCoupon.bind(this, order));
+    },
     deleteCoupon(coupon) {
-      // eslint-disable-next-line no-alert
-      if (!window.confirm('確定刪除優惠券？')) return Promise.reject();
-
       this.$loading.show();
 
       const params = { id: coupon.id };

@@ -5,7 +5,7 @@ export default {
       return document.cookie
         .split('; ')
         .find((row) => row.startsWith(key))
-        .split('=')[1];
+        ?.split('=')[1];
     },
     setCookie(key, value, expire, path, domain) {
       const pairs = {

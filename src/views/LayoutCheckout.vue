@@ -13,7 +13,7 @@
     </div>
   </div>
   <router-view @update:step="updateStep" />
-  <ToastList type="alert" />
+  <ToastList type="main" />
 </template>
 
 <script>

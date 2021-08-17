@@ -26,7 +26,7 @@
               </div>
               <div class="flex-grow-1 d-flex flex-column text-center position-relative">
                 <div class="my-auto">
-                  <img class="mw-100" style="object-fit: contain" :src="tempProduct.imageUrl">
+                  <img class="mw-100" style="object-fit: contain" :src="tempProduct.imageUrl" alt />
                 </div>
                 <div v-if="tempProduct.imageUrl" class="position-absolute top-0 end-0">
                   <button class="btn-close" type="button" @click="deleteImage" />

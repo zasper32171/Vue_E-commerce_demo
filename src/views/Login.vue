@@ -8,13 +8,13 @@
             <h3 class="text-center mt-1 mb-0">會員登入</h3>
             <div class="form-group mb-2">
               <label for="input-email">帳號</label>
-              <ErrorMessage name="帳號" class="float-end fs-7 fw-bold text-danger mt-1" />
+              <ErrorMessage name="帳號" class="float-end fs-7 text-danger mt-1" />
               <Field id="input-email" name="帳號" class="form-control" type="email"
                 placeholder="請輸入信箱" rules="required|email" v-model="userInfo.username" autofocus />
             </div>
             <div class="form-group mb-2">
               <label for="input-password">密碼</label>
-              <ErrorMessage name="密碼" class="float-end fs-7 fw-bold text-danger mt-1" />
+              <ErrorMessage name="密碼" class="float-end fs-7 text-danger mt-1" />
               <Field id="input-password" name="密碼" class="form-control" type="password"
                 placeholder="請輸入密碼" rules="required|alpha_num|min:8|max:16"
                 v-model="userInfo.password" />

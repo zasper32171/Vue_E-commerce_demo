@@ -40,11 +40,11 @@ export default {
     $props: {
       handler() {
         if (this.min >= this.max) {
-          console.error('Invalid props: Minimum value should be less than the maximum');
+          // console.error('Invalid props: Minimum value should be less than the maximum');
         } else if (this.value < this.min) {
-          console.error('Invalid props: Initial value should be greater than the minimum');
+          // console.error('Invalid props: Initial value should be greater than the minimum');
         } else if (this.value > this.max) {
-          console.error('Invalid props: Initial value should be less than the maximun');
+          // console.error('Invalid props: Initial value should be less than the maximun');
         }
       },
       immediate: true,

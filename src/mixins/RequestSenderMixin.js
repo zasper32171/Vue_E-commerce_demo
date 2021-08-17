@@ -20,7 +20,7 @@ const productResponsePacketTransform = (packet) => {
   try {
     packet.content = JSON.parse(packet.content);
   } catch (e) {
-    console.error('Json decode error:', packet.content);
+    // console.error('Json decode error:', packet.content);
     packet.content = {};
   }
 };
@@ -33,7 +33,7 @@ const articleResponsePacketTransform = (packet) => {
   try {
     packet.content = JSON.parse(packet.content);
   } catch (e) {
-    console.error('Json decode error:', packet.content);
+    // console.error('Json decode error:', packet.content);
     packet.content = {};
   }
 };
@@ -125,7 +125,7 @@ export default {
   methods: {
     sendRequest(type, params, data, onSuccess, onFailure) {
       if (!(type in REQUEST_TYPES)) {
-        console.error(new Error(`Unknown request type(${type})`));
+        // console.error(new Error(`Unknown request type(${type})`));
         return Promise.reject();
       }
 
@@ -133,19 +133,19 @@ export default {
       let compiledUrl;
 
       if (!(method in this.$http)) {
-        console.error(new Error(`Unknown request method(${method})`));
+        // console.error(new Error(`Unknown request method(${method})`));
         return Promise.reject();
       }
 
       try {
         compiledUrl = compile(url)({ ...PREDEFINED_PARAMS, ...params });
       } catch (e) {
-        console.error(e);
+        // console.error(e);
         return Promise.reject();
       }
 
-      return this.$http({ ...REQUEST_TYPES[type], url: compiledUrl, data })
-        .then((res) => {
+      return this.$http({ ...REQUEST_TYPES[type], url: compiledUrl, data }).then(
+        (res) => {
           if (res.data.success) {
             if (typeof onSuccess === 'function') {
               onSuccess(res.data);
@@ -153,19 +153,20 @@ export default {
           } else if (typeof onFailure === 'function') {
             onFailure(res.data);
           }
-        })
-        .catch((e) => {
+        },
+        (e) => {
           if (e.response) {
-            console.error(e.response.data);
-            console.error(e.response.status);
-            console.error(e.response.headers);
+            // console.error(e.response.data);
+            // console.error(e.response.status);
+            // console.error(e.response.headers);
           } else if (e.request) {
-            console.error(e.request);
+            // console.error(e.request);
           } else {
-            console.error('error', e.message);
+            // console.error('error', e.message);
           }
-          console.error(e.config);
-        });
+          // console.error(e.config);
+        },
+      );
     },
     setRequestAuth(token) {
       this.$http.defaults.headers.common.Authorization = token;

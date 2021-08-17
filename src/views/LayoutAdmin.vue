@@ -1,38 +1,40 @@
 <template>
   <div>
     <Navbar />
-    <router-view v-if="!checking" />
-    <ToastList class="position-absolute bottom-0 end-0 mb-4 me-4" />
+    <router-view v-if="isChecked" />
+    <Dialog />
+    <ToastList class="position-absolute bottom-0 end-0 mb-4 me-4" type="admin" />
   </div>
 </template>
 
 <script>
 import RequestSenderMixin from '@/mixins/RequestSenderMixin';
 import CookieAccessMixin from '@/mixins/CookieAccessMixin';
-import { RouterMixin } from '@/mixins/MessageTransMixins';
+import { RouterMixin, DialogTransmitterMixin } from '@/mixins/MessageTransMixins';
 
 import Navbar from '@/components/AdminNavbar.vue';
+import Dialog from '@/components/AdminDialog.vue';
 import ToastList from '@/components/ToastList.vue';
 
 export default {
   name: 'LayoutAdmin',
-  mixins: [RequestSenderMixin, CookieAccessMixin, RouterMixin],
-  components: { Navbar, ToastList },
+  mixins: [RequestSenderMixin, CookieAccessMixin, RouterMixin, DialogTransmitterMixin],
+  components: { Navbar, Dialog, ToastList },
   data() {
     return {
-      checking: true,
+      isChecked: false,
     };
   },
   methods: {
     checkLogin() {
       const onSuccess = () => {
-        this.checking = false;
+        this.isChecked = true;
       };
 
       const onFailure = (res) => {
-        // eslint-disable-next-line no-alert
-        window.alert(res.message);
-        this.$router.push({ path: '/login' });
+        this.pushAlert('驗證失敗', res.message, () => {
+          this.$router.push({ path: '/login' });
+        });
       };
 
       this.sendRequest('checkLogin', null, null, onSuccess, onFailure);
@@ -57,12 +59,12 @@ export default {
 //          2. variables with null value in variables.scss will not override
 @import '~bootstrap/scss/_functions';
 @import '~bootstrap/scss/_variables';
-@import '@/styles/patch/_root';
+@import '@/assets/scss/patch/_root';
 
 :root.theme-default {
   @import '~bootstrap/scss/bootstrap';
 
-  // Inject root variables manually...
+  // Inject root vars manually...
   @extend %root;
 
   body {

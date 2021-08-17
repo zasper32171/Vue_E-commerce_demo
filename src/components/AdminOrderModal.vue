@@ -12,12 +12,13 @@
           <div class="row gx-2">
             <div class="mb-2 col-md-6">
               <label class="form-label">訂單編號</label>
-              <input class="form-control" type="text" :value="tempOrder.id" readonly />
+              <input class="form-control-plaintext" type="text" :value="tempOrder.id" disabled
+                readonly />
             </div>
             <div class="mb-2 col-md-6">
               <label class="form-label">成立時間</label>
-              <input class="form-control" type="text"
-                :value="$helper.timeToDatetime(tempOrder.create_at)" readonly />
+              <input class="form-control-plaintext" type="text"
+                :value="$helper.timeToDatetime(tempOrder.create_at)" disabled readonly />
             </div>
           </div>
           <div class="row gx-2">
@@ -28,7 +29,8 @@
             </div>
             <div class="mb-2 col-md-6">
               <label class="form-label">付款方式</label>
-              <input class="form-control" type="text" :value="tempOrder.payment_method" readonly />
+              <input class="form-control-plaintext" type="text" :value="tempOrder.payment_method"
+                disabled readonly />
             </div>
           </div>
           <div class="row gx-2">
@@ -42,8 +44,8 @@
             </div>
             <div class="mb-2 col-md-6">
               <label class="form-label">付款時間</label>
-              <input class="form-control" type="text"
-                :value="$helper.timeToDatetime(tempOrder.paid_date)" readonly />
+              <input class="form-control-plaintext" type="text"
+                :value="$helper.timeToDatetime(tempOrder.paid_date)" disabled readonly />
             </div>
           </div>
           <h5 class="text-dark text-center mt-3">購買人資訊</h5>

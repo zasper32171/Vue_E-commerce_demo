@@ -2,22 +2,23 @@
   <div class="min-vh-100 py-7">
     <div class="text-center">
       <h2 class="mb-0 lh-1">經典酒譜</h2>
-      <img class="mw-100" src="@/assets/decs/title-dec.png">
+      <img class="mw-100" src="@/assets/decs/title-dec.png" alt />
     </div>
     <div class="container my-5">
       <div class="waterfall col mx-md-0 mx-4">
-        <div v-for="recipe in recipes" :key="recipe.id" class="position-relative mb-4">
-          <img class="w-100" :src="recipe.imageUrl">
+        <router-link v-for="recipe in recipes" :key="recipe.id"
+          class="d-block link-reset position-relative mb-4" :to="`/recipe/${recipe.id}`">
+          <img class=" w-100" :src="recipe.imageUrl" :alt="recipe.subtitle" />
           <!-- Chrome bug: Backdrop not working inside column-counts.-->
           <div class="cover-parent overlay hover d-flex flex-column text-center
               justify-content-center">
             <div class="fs-7 fly-in-top">{{ recipe.subtitle }}</div>
             <div class="fs-5 mb-2">{{ recipe.title }}</div>
             <router-link class="fly-in-down" :to="`/recipe/${recipe.id}`">
-              <button class="btn btn-sm btn-decorative">查看酒譜</button>
+              <button class="btn btn-sm btn-decorative" type="button">查看酒譜</button>
             </router-link>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -48,8 +49,8 @@ export default {
         });
       };
 
-      const onFailure = (res) => {
-        console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = (/* res */) => {
+        // console.error('取得失敗: ', res.messages.join('、'));
       };
 
       return this.sendRequest('getArticles', params, null, onSuccess, onFailure).finally(
@@ -80,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~bootstrap/scss/_functions';
-@import '@/styles/custom/_variables';
+@import '@/assets/scss/custom/_variables';
 
 .waterfall {
   column-count: 4;

@@ -13,12 +13,13 @@
           <h5 class="mb-3">聯絡我們</h5>
           <div class="d-inline-block text-start">
             <div class="text-primary">
-              <img class="mb-2 me-1" src="@/assets/icons/phone-solid.svg" width="18">
-              <span class='text-reset fs-5'>{{ info.tele }}</span>
+              <img class="mb-2 me-1" src="@/assets/icons/phone-solid.svg" alt="Tele" width="18" />
+              <a class='text-reset fs-5 text-decoration-none' :href='info.tele.href'>
+                {{ info.tele.text }}</a>
             </div>
             <div>
               <a v-for="medium in info.media" :key="medium" :href="medium.href" class="me-2">
-                <img class="mb-2" :src="medium.img" width="18">
+                <img class="mb-2" :src="medium.img" :alt="medium.name" width="18" />
               </a>
             </div>
           </div>
@@ -39,18 +40,14 @@ export default {
   props: {
     routes: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => [],
     },
     info: {
       type: Object,
-      default() {
-        return {
-          tele: '',
-          media: [],
-        };
-      },
+      default: () => ({
+        tele: '',
+        media: [],
+      }),
     },
   },
 };

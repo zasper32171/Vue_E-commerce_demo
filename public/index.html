@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong
-        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to
-        continue.</strong
-      >
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Security-Policy"
+    content="script-src 'self' 'unsafe-eval'; object-src 'self'" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+  <meta name="title" content="Golden Ronny 單一麥芽蘇格蘭威士忌" />
+  <meta name="description"
+    content="是什麼造就了 Golden Ronny 的雋永與不凡？一次又一次近乎偏執的追尋，只為將最尊貴美好的體驗發掘並獻予世人，無止境而不悔。以完美比例調和，層次豐富而鮮明。細緻迷人韻味於舌尖綻放。僅獻給極致味蕾體驗的追尋者" />
+  <meta name="author" content="Zasper Liu">
+  <meta name="referrer" content="no-referrer">
+
+  <meta property="og:type" content="Website" />
+  <meta property="og:url" content="https://zasper.github.io/golden_ronny" />
+  <meta property="og:title" content="Golden Ronny 單一麥芽蘇格蘭威士忌" />
+  <meta property="og:description"
+    content="是什麼造就了 Golden Ronny 的雋永與不凡？一次又一次近乎偏執的追尋，只為將最尊貴美好的體驗發掘並獻予世人，無止境而不悔。以完美比例調和，層次豐富而鮮明。細緻迷人韻味於舌尖綻放。僅獻給極致味蕾體驗的追尋者" />
+  <meta property="og:image" content="https://zasper.github.io/golden_ronny/thumbnail.jpg" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:url" content="https://zasper.github.io/golden_ronny" />
+  <meta name="twitter:title" content="Golden Ronny 單一麥芽蘇格蘭威士忌" />
+  <meta name="twitter:description"
+    content="是什麼造就了 Golden Ronny 的雋永與不凡？一次又一次近乎偏執的追尋，只為將最尊貴美好的體驗發掘並獻予世人，無止境而不悔。以完美比例調和，層次豐富而鮮明。細緻迷人韻味於舌尖綻放。僅獻給極致味蕾體驗的追尋者" />
+  <meta name="twitter:image" content="https://zasper.github.io/golden_ronny/thumbnail.jpg" />
+
+  <link rel="author" href="https://github.com/zasper32171" />
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without
+      JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>

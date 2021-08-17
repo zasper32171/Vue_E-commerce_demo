@@ -307,11 +307,7 @@ export default {
         this.products = res.products;
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.messages.join('、'));
-      };
-
-      return this.sendRequest('getProductsAll', null, null, onSuccess, onFailure).finally(
+      return this.sendRequest('getProductsAll', null, null, onSuccess, null).finally(
         this.$loading.hide,
       );
     },

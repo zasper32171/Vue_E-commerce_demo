@@ -87,8 +87,7 @@ export default {
         this.order = res.order;
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
+      const onFailure = () => {
         this.$router.push('/');
       };
 

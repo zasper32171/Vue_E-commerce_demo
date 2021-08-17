@@ -192,11 +192,7 @@ export default {
         this.recipes.push(res.article);
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
-      };
-
-      return this.sendRequest('getArticle', params, null, onSuccess, onFailure).finally(
+      return this.sendRequest('getArticle', params, null, onSuccess, null).finally(
         this.$loading.hide,
       );
     },

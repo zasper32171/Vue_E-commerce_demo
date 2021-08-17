@@ -58,11 +58,7 @@ export default {
         this.itemCount = res.data.carts.length;
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.messages.join('、'));
-      };
-
-      return this.sendRequest('getCart', null, null, onSuccess, onFailure);
+      return this.sendRequest('getCart', null, null, onSuccess, null);
     },
   },
   created() {

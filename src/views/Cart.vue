@@ -293,13 +293,7 @@ export default {
         });
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.messages.join('、'));
-      };
-
-      return this.sendRequest('getCart', null, null, onSuccess, onFailure).finally(
-        this.$loading.hide,
-      );
+      return this.sendRequest('getCart', null, null, onSuccess, null).finally(this.$loading.hide);
     },
     updateCartItem(item) {
       this.$loading.show();
@@ -395,11 +389,7 @@ export default {
         this.recommends.push(res.product);
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
-      };
-
-      return this.sendRequest('getProduct', params, null, onSuccess, onFailure).finally(
+      return this.sendRequest('getProduct', params, null, onSuccess, null).finally(
         this.$loading.hide,
       );
     },

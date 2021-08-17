@@ -149,8 +149,7 @@ export default {
         this.recipe = res.article;
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
+      const onFailure = () => {
         this.$router.push('/recipes');
       };
 
@@ -167,11 +166,7 @@ export default {
         this.related = res.product;
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
-      };
-
-      return this.sendRequest('getProduct', params, null, onSuccess, onFailure).finally(
+      return this.sendRequest('getProduct', params, null, onSuccess, null).finally(
         this.$loading.hide,
       );
     },
@@ -184,11 +179,7 @@ export default {
         this.recommends.push(res.article);
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.message);
-      };
-
-      return this.sendRequest('getArticle', params, null, onSuccess, onFailure).finally(
+      return this.sendRequest('getArticle', params, null, onSuccess, null).finally(
         this.$loading.hide,
       );
     },

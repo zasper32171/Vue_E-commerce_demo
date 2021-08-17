@@ -218,8 +218,7 @@ export default {
         this.total = Math.floor(res.data.final_total);
       };
 
-      const onFailure = (/* res */) => {
-        // console.error('取得失敗: ', res.messages.join('、'));
+      const onFailure = () => {
         this.$router.push('/');
       };
 
